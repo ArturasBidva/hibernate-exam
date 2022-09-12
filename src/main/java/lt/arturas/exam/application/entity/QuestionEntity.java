@@ -19,7 +19,6 @@ public class QuestionEntity {
     private String answer_3;
     private String correctAnswer;
 
-
     @Override
     public String toString() {
         return "QuestionEntity{" +
