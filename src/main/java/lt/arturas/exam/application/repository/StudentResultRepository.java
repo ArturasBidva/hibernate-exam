@@ -25,7 +25,7 @@ public class StudentResultRepository extends AbstractRepository {
         });
     }
 
-    public List<StudentResultEntity> getStudentResultByStudentId(Long id) {
+    public List<StudentResultEntity> getStudentResultsByStudentId(Long id) {
         return getResult(session -> {
             TypedQuery<StudentResultEntity> query = session.createQuery(
                     "SELECT entity FROM StudentResultEntity entity " +

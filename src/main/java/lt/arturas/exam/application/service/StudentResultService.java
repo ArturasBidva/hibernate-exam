@@ -1,6 +1,5 @@
 package lt.arturas.exam.application.service;
 
-import lt.arturas.exam.application.Models.StudentResult;
 import lt.arturas.exam.application.Models.presentation.StudentResultPresentation;
 import lt.arturas.exam.application.entity.ExamEntity;
 import lt.arturas.exam.application.entity.StudentEntity;
@@ -41,19 +40,30 @@ public class StudentResultService {
         studentResultRepository.createStudentResult(studentResultEntity);
     }
 
-    public List<StudentResult> getAllStudentResults() {
+    public List<StudentResultPresentation> getAllStudentResults() {
         return studentResultRepository
                 .getStudentResults()
                 .stream()
-                .map(StudentResult::new)
+                .map(StudentResultPresentation::new)
                 .collect(Collectors.toList());
     }
 
     public List<StudentResultPresentation> getStudentResultsByStudentId(Long id) {
 
-        return studentResultRepository.getStudentResultByStudentId(id)
+        return studentResultRepository.getStudentResultsByStudentId(id)
                 .stream()
                 .map(StudentResultPresentation::new)
                 .collect(Collectors.toList());
+    }
+
+    public boolean checkIfHoursPassed(Long studentId, Long examId) {
+        final long DAY = 24 * 60 * 60 * 1000;
+        List<StudentResultEntity> studentResults = studentResultRepository.getStudentResultsByStudentId(studentId);
+        boolean hasTakenExamOnce = studentResults.stream().anyMatch(it -> it.getExamEntity().getId().equals(examId));
+        boolean hasRequiredTimePassed = studentResults.stream().anyMatch(it -> (it.getDate().getTime() > System.currentTimeMillis() - DAY));
+        if (hasTakenExamOnce) {
+            return !hasRequiredTimePassed;
+        }
+        return true;
     }
 }

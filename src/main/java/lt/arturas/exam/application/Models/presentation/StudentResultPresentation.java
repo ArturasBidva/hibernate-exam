@@ -3,17 +3,19 @@ package lt.arturas.exam.application.Models.presentation;
 import lt.arturas.exam.application.entity.StudentResultEntity;
 
 public class StudentResultPresentation {
-    private String examName;
-    private int grade;
-    private java.sql.Timestamp date;
+    private final String examName;
+    private final int grade;
+    private final java.sql.Timestamp date;
 
-    private String teacherName;
+    private final String teacherName;
 
+    private final String studentName;
     public StudentResultPresentation(StudentResultEntity studentResultEntity) {
         this.examName = studentResultEntity.getExamEntity().getTitle();
         this.grade = studentResultEntity.getGrade();
         this.date = studentResultEntity.getDate();
         this.teacherName = studentResultEntity.getExamEntity().getTeacherEntity().getName();
+        this.studentName = studentResultEntity.getStudentEntity().getName();
     }
 
     @Override
@@ -23,6 +25,7 @@ public class StudentResultPresentation {
                 ", grade=" + grade +
                 ", date=" + date +
                 ", teacherName='" + teacherName + '\'' +
+                ", studentName='" + studentName + '\'' +
                 '}';
     }
 }

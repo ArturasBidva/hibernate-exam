@@ -13,7 +13,7 @@ import lt.arturas.exam.application.utils.MockDataGenerator;
 
 import java.util.*;
 
-public class ExaminatorApplication {
+public class ExaminationApplication {
     UserInputReceiver userInputReceiver = new UserInputReceiver();
     LogInService logInService = new LogInService();
     ExamService examService = new ExamService();
@@ -141,7 +141,8 @@ public class ExaminatorApplication {
                 3. Prideti klausima i egzamina
                 4. Istrinti egzamina
                 5. Istrinti klausima is egzamino
-                6. Atsijungti
+                6. Gauti studentu rezultatus
+                7. Atsijungti.
                 """;
         System.out.println(menu);
     }
@@ -186,29 +187,33 @@ public class ExaminatorApplication {
         examService.getAllExams().forEach(it -> System.out.println(it.asOnlyExamString()));
         System.out.println("Irasykite egzamino id kuri noretumete laikyti");
         Long examId = userInputReceiver.getUserLongInput();
-        userInputReceiver.jumpLineScanner();
-        Exam exam = examService.getExamById(examId);
-        List<StudentSelection> studentSelections = new ArrayList<>();
-        int correctAnswerCount = 0;
-        for (Question question : exam.getQuestionList()) {
-            System.out.println(question);
-            System.out.println("Iveskite teisinga atsakyma");
-            String ivestis = userInputReceiver.getUserTextInput();
-            StudentSelection studentSelection = new StudentSelection(ivestis, question.getCorrectAnswer());
-            studentSelections.add(studentSelection);
-        }
-
-        for (StudentSelection studentSelection : studentSelections) {
-            if (studentSelection.isCorrect()) {
-                correctAnswerCount++;
+        if (!studentResultService.checkIfHoursPassed(logInService.getCurrentSessionId(), examId)) {
+            System.out.println("Laikas dar nepraejo");
+        } else {
+            userInputReceiver.jumpLineScanner();
+            Exam exam = examService.getExamById(examId);
+            List<StudentSelection> studentSelections = new ArrayList<>();
+            int correctAnswerCount = 0;
+            for (Question question : exam.getQuestionList()) {
+                System.out.println(question);
+                System.out.println("Iveskite teisinga atsakyma");
+                String ivestis = userInputReceiver.getUserTextInput();
+                StudentSelection studentSelection = new StudentSelection(ivestis, question.getCorrectAnswer());
+                studentSelections.add(studentSelection);
             }
+
+            for (StudentSelection studentSelection : studentSelections) {
+                if (studentSelection.isCorrect()) {
+                    correctAnswerCount++;
+                }
+            }
+            int grade = (correctAnswerCount * 100 / studentSelections.size());
+            System.out.println(studentSelections.size());
+
+            studentResultService.createStudentResult(logInService.getCurrentSessionId(), exam.getId(), grade);
+
+            System.out.println("Egzaminas baigtas");
         }
-        int grade = (correctAnswerCount * 100 / studentSelections.size());
-        System.out.println(studentSelections.size());
-
-        studentResultService.createStudentResult(logInService.getCurrentSessionId(), exam.getId(), grade);
-
-        System.out.println("Egzaminas baigtas");
     }
 
     void teacherSignedInMenu() {
@@ -222,10 +227,11 @@ public class ExaminatorApplication {
                 case "3" -> addQuestionToExam();
                 case "4" -> deleteExam();
                 case "5" -> deleteQuestionFromExam();
-                case "6" -> menu();
+                case "6" -> getAllStudentResults();
+                case "7" -> menu();
                 default -> System.out.println("Tokio pasirinkimo nera");
             }
-        } while (!ivestis.equals("6"));
+        } while (!ivestis.equals("7"));
     }
 
     private void deleteQuestionFromExam() {
@@ -320,5 +326,8 @@ public class ExaminatorApplication {
         questionService.createQuestion(question);
         System.out.println("Klausimas sekmingai sukurtas");
         teacherSignedInMenu();
+    }
+    void getAllStudentResults(){
+        System.out.println(studentResultService.getAllStudentResults());
     }
 }
