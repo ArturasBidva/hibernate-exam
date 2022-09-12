@@ -43,11 +43,11 @@ public class ExamRepository extends AbstractRepository {
         });
     }
 
-        public void updateExam (ExamEntity examEntity){
-            modifyEntity(session -> session.update(examEntity));
-        }
-
-        public void deleteExam (ExamEntity examEntity){
-            modifyEntity(session -> session.remove(examEntity));
-        }
+    public void updateExam(ExamEntity examEntity) {
+        modifyEntity(session -> session.update(examEntity));
     }
+
+    public void deleteExam(ExamEntity examEntity) {
+        modifyEntity(session -> session.remove(examEntity));
+    }
+}

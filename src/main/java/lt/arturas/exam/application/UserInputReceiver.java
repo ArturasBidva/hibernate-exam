@@ -2,8 +2,6 @@ package lt.arturas.exam.application;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UserInputReceiver {
     Scanner scanner = new Scanner(System.in);
@@ -33,6 +31,4 @@ public class UserInputReceiver {
     void jumpLineScanner() {
         scanner.nextLine();
     }
-
 }
-

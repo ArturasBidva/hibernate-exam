@@ -23,7 +23,6 @@ public class SessionFactoryProvider {
         configuration.addAnnotatedClass(StudentResultEntity.class);
         configuration.addAnnotatedClass(ExamEntity.class);
 
-
         sessionFactory = configuration.buildSessionFactory();
     }
 

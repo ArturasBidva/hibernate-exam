@@ -327,7 +327,8 @@ public class ExaminationApplication {
         System.out.println("Klausimas sekmingai sukurtas");
         teacherSignedInMenu();
     }
-    void getAllStudentResults(){
+
+    void getAllStudentResults() {
         System.out.println(studentResultService.getAllStudentResults());
     }
 }
