@@ -208,7 +208,6 @@ public class ExaminationApplication {
                 }
             }
             int grade = (correctAnswerCount * 100 / studentSelections.size());
-            System.out.println(studentSelections.size());
 
             studentResultService.createStudentResult(logInService.getCurrentSessionId(), exam.getId(), grade);
 
@@ -228,7 +227,7 @@ public class ExaminationApplication {
                 case "4" -> deleteExam();
                 case "5" -> deleteQuestionFromExam();
                 case "6" -> getAllStudentResults();
-                case "7" -> menu();
+                case "7" -> System.out.println("");
                 default -> System.out.println("Tokio pasirinkimo nera");
             }
         } while (!ivestis.equals("7"));
@@ -244,7 +243,6 @@ public class ExaminationApplication {
         if (!examService.checkIfExamExist(examId)) {
             deleteQuestionFromExam();
         }
-        System.out.println("=========================");
         if (examService.getExamById(examId) == null) {
             System.out.println("Tokio egzamino nera");
             deleteQuestionFromExam();

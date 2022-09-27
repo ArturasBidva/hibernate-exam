@@ -74,7 +74,7 @@ public class ExamService {
     }
 
     public Exam getExamById(Long id) {
-        ExamEntity examEntity = null;
+        ExamEntity examEntity;
         try {
             examEntity = examRepository.getExamById(id);
         } catch (NullPointerException e) {

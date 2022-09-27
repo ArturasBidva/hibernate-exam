@@ -18,4 +18,3 @@ public class StudentEntity {
     private String name;
     private String surname;
 }
-

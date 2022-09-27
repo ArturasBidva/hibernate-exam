@@ -1,25 +1,31 @@
 package lt.arturas.exam.application.Models;
 
-import lt.arturas.exam.application.Models.user.Student;
 import lt.arturas.exam.application.entity.StudentResultEntity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 
 public class StudentResult {
-    private Long StudentResultId;
-    private Student student;
-    private Exam exam;
-    private int grade;
+    private final String examName;
+    private final int grade;
+    private final java.sql.Timestamp date;
 
+    private final String teacherName;
+
+    private final String studentName;
     public StudentResult(StudentResultEntity studentResultEntity) {
-        this.StudentResultId = studentResultEntity.getId();
-        this.student = new Student(studentResultEntity.getStudentEntity());
-        this.exam = new Exam(studentResultEntity.getExamEntity());
+        this.examName = studentResultEntity.getExamEntity().getTitle();
         this.grade = studentResultEntity.getGrade();
+        this.date = studentResultEntity.getDate();
+        this.teacherName = studentResultEntity.getExamEntity().getTeacherEntity().getName();
+        this.studentName = studentResultEntity.getStudentEntity().getName();
+    }
+
+    @Override
+    public String toString() {
+        return "StudentResultPresentation{" +
+                "examName='" + examName + '\'' +
+                ", grade=" + grade +
+                ", date=" + date +
+                ", teacherName='" + teacherName + '\'' +
+                ", studentName='" + studentName + '\'' +
+                '}';
     }
 }

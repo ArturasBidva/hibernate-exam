@@ -1,6 +1,6 @@
 package lt.arturas.exam.application.service;
 
-import lt.arturas.exam.application.Models.presentation.StudentResultPresentation;
+import lt.arturas.exam.application.Models.StudentResult;
 import lt.arturas.exam.application.entity.ExamEntity;
 import lt.arturas.exam.application.entity.StudentEntity;
 import lt.arturas.exam.application.entity.StudentResultEntity;
@@ -40,19 +40,19 @@ public class StudentResultService {
         studentResultRepository.createStudentResult(studentResultEntity);
     }
 
-    public List<StudentResultPresentation> getAllStudentResults() {
+    public List<StudentResult> getAllStudentResults() {
         return studentResultRepository
                 .getStudentResults()
                 .stream()
-                .map(StudentResultPresentation::new)
+                .map(StudentResult::new)
                 .collect(Collectors.toList());
     }
 
-    public List<StudentResultPresentation> getStudentResultsByStudentId(Long id) {
+    public List<StudentResult> getStudentResultsByStudentId(Long id) {
 
         return studentResultRepository.getStudentResultsByStudentId(id)
                 .stream()
-                .map(StudentResultPresentation::new)
+                .map(StudentResult::new)
                 .collect(Collectors.toList());
     }
 
@@ -60,9 +60,9 @@ public class StudentResultService {
         final long DAY = 24 * 60 * 60 * 1000;
         List<StudentResultEntity> studentResults = studentResultRepository.getStudentResultsByStudentId(studentId);
         boolean hasTakenExamOnce = studentResults.stream().anyMatch(it -> it.getExamEntity().getId().equals(examId));
-        boolean hasRequiredTimePassed = studentResults.stream().anyMatch(it -> (it.getDate().getTime() > System.currentTimeMillis() - DAY));
+        boolean hasRequiredTimePassed = studentResults.stream().anyMatch(it -> (it.getDate().getTime() < System.currentTimeMillis() - DAY));
         if (hasTakenExamOnce) {
-            return !hasRequiredTimePassed;
+            return hasRequiredTimePassed;
         }
         return true;
     }

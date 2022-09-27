@@ -1,6 +1,6 @@
 package lt.arturas.exam.application.Models.login;
 
-public class TeacherLoginRequest implements LoginRequest{
+public class TeacherLoginRequest implements LoginRequest {
 
     private final String name;
 

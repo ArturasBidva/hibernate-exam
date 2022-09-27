@@ -39,12 +39,4 @@ public class StudentResultRepository extends AbstractRepository {
             return query.getResultList();
         });
     }
-
-    public StudentResultEntity getStudentResultById(Long id) {
-        return getResult(session -> session.get(StudentResultEntity.class, id));
-    }
-
-    public void updateStudentResult(StudentResultEntity studentResultEntity) {
-        modifyEntity(session -> session.update(studentResultEntity));
-    }
 }

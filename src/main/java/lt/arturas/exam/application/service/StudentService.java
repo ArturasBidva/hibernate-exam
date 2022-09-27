@@ -25,10 +25,6 @@ public class StudentService {
         return null;
     }
 
-    public Student getStudentById(Long id) {
-        return new Student(studentRepository.getStudentById(id));
-    }
-
     public CreateStudentState createStudent(String name, String surname, String username) {
         if (validator.hasDigits(name) || validator.hasDigits(surname)) {
             return CreateStudentState.INCORRECT_SYMBOLS;

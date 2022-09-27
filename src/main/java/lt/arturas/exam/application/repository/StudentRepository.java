@@ -6,13 +6,6 @@ import java.util.List;
 
 public class StudentRepository extends AbstractRepository {
 
-    public List<StudentEntity> getStudents() {
-        return getResult(session -> session.createQuery(
-                "SELECT entity FROM StudentEntity",
-                StudentEntity.class
-        ).list());
-    }
-
     public void createStudent(StudentEntity studentEntity) {
         modifyEntity(session -> session.persist(studentEntity));
     }
