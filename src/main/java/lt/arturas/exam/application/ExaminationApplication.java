@@ -277,7 +277,6 @@ public class ExaminationApplication {
         Long id = userInputReceiver.getUserLongInput();
         examService.deleteExam(id);
         System.out.println("Egzaminas sekmingai istrintas");
-        teacherSignedInMenu();
     }
 
     private void addQuestionToExam() {
@@ -305,8 +304,6 @@ public class ExaminationApplication {
         String title = userInputReceiver.getUserTextInput();
         examService.createExam(title, logInService.getCurrentSessionId());
         System.out.println("Egzaminas sekmingai sukurtas");
-        userInputReceiver.jumpLineScanner();
-        teacherSignedInMenu();
     }
 
     void createQuestionTest() {
@@ -323,7 +320,6 @@ public class ExaminationApplication {
         Question question = new Question(null, questionInput, answer1, answer2, answer3, rightAnswer);
         questionService.createQuestion(question);
         System.out.println("Klausimas sekmingai sukurtas");
-        teacherSignedInMenu();
     }
 
     void getAllStudentResults() {
